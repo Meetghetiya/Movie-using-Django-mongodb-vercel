@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Watchlist
+{% endblock title %}
+
+{% block moviecontent %}
+
+       {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-5" role="alert">
+          <strong>{{message}}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+       {% endfor %}
+
+       <div class="movies-grid">
+            
+        {% for movie in movies %}
+          <div class="movie-card">
+
+          <a href="{% url 'movie_detail' movie_id=movie.movie_id  %}">
+
+            <div class="card-head">
+              <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster }}" alt="{{ movie.title }} Poster" class="card-img">
+
+              <div class="card-overlay">
+
+                <div class="bookmark">
+                  <ion-icon name="bookmark-outline"></ion-icon>
+                </div>
+
+                <div class="rating">
+                  <ion-icon name="star-outline"></ion-icon>
+                  <span>{{movie.vote_average}}</span>
+                </div>
+
+                <div class="play">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card-body">
+              <h3 class="card-title">{{ movie.title }}</h3>
+
+              <div class="card-info">
+                <span class="year">{{ movie.release_date| slice:"0:4" }}</span>
+              </div>
+
+              <a href="{% url 'delete_movie' movie_id=movie.movie_id %}">
+                <button type="button" class="btn btn-outline-success">Delete</button>
+              </a>
+
+            </div>
+
+            </a>
+
+          </div>
+        {% endfor %}
+
+        </div>
+
+
+{% endblock moviecontent %}

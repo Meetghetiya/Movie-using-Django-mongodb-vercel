@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  movie detail page
+{% endblock title %}
+
+
+{% block detail.css %}
+     <link rel="stylesheet" href="{% static '/assets/css/moviedetail.css' %}">
+{% endblock detail.css %}
+
+{% block moviecontent %}
+
+
+    {% for message in messages %}
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-5" role="alert">
+          <strong>{{message}}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+    {% endfor %}
+
+   <section class="movie-detail">
+            <div class="container">
+    
+              <figure class="movie-detail-banner">
+    
+                <img src="https://image.tmdb.org/t/p/w500/{{poster}}" alt="{{title}} Poster" class="card-img">
+    
+                <button class="play-btn">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </button>
+    
+              </figure>
+    
+              <div class="movie-detail-content">
+    
+                <p class="detail-subtitle">New Episodes</p>
+    
+                <h1 class="h1 detail-title">
+                  <!-- Free <strong>Guy</strong> -->
+                  {{title}}
+                </h1>
+    
+                <div class="meta-wrapper">
+    
+                  <div class="badge-wrapper">
+                    <div class="badge badge-fill">PG 13</div>
+    
+                    <div class="badge badge-outline">HD</div>
+                  </div>
+    
+                  <div class="ganre-wrapper">
+                    {{ genres|join:", " }}
+                  </div>
+    
+                  <div class="date-time">
+    
+                    <div>
+                      <ion-icon name="calendar-outline"></ion-icon>
+    
+                      <time datetime="2021">{{ release_date| slice:"0:4" }}</time>
+                    </div>
+    
+                    <div>
+                      <ion-icon name="time-outline"></ion-icon>
+    
+                      <time datetime="PT115M">{{ runtime }} min</time>
+                    </div>
+    
+                  </div>
+    
+                </div>
+    
+                <p class="storyline">
+                  {{overview}}
+                </p>
+    
+                <div class="details-actions">
+    
+                  <button class="share">
+                    <ion-icon name="share-social"></ion-icon>
+    
+                    <span>Share</span>
+                  </button>
+    
+                  <div class="title-wrapper">
+                    <p class="title">Prime Video</p>
+    
+                    <p class="text">Streaming Channels</p>
+                  </div>
+    
+                   <a href="{% url 'add_to_watchlist' movie_id=movie_id %}">
+                  <button class="btn btn-primary">
+                    <ion-icon name="add-circle"></ion-icon>
+    
+                    <span>Watchlist</span>
+                  </button>
+    
+                </div>
+    
+                {% comment %} <a href="./assets/images/movie-4.png" download class="download-btn">
+                  <span>Download</span>
+    
+                  <ion-icon name="download-outline"></ion-icon>
+                </a> {% endcomment %}
+    
+              </div>
+    
+            </div>
+          </section>
+
+{% endblock moviecontent %}
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="{% static '/assets/images/icon.png' %}" type="image/png">
+  <title>CineFlix</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+  
+  <link rel="stylesheet" href="{% static '/assets/css/main.css' %}">
+  <link rel="stylesheet" href="{% static '/assets/css/media_query.css' %}">
+  <link rel="stylesheet" href="{% static '/assets/css/moviedetail.css' %}">
+  
+  <link href="https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
+</head>
+
+<body>
+
+
+
+
+  
+  <div class="container">
+
+
+    <header class="">
+      <div class="navbar">
+
+        <button class="navbar-menu-btn">
+          <span class="one"></span>
+          <span class="two"></span>
+          <span class="three"></span>
+        </button>
+
+
+        <a href="#" class="navbar-brand">
+          <img src="{% static '/assets/images/logo.png' %}" alt="">
+        </a>
+
+        <div class="navbar-actions gap-3">
+          
+          <a href="#" class="navbar-signin">
+            <span>Search</span>
+            <ion-icon name="search-outline"></ion-icon>
+          </a>
+
+           {% if user.is_authenticated %}
+              <a href="/auth/logout/" class="navbar-signin">
+                <span>Logout</span>
+                <ion-icon name="log-out-outline"></ion-icon>
+              </a>
+            {% else %}
+               <a href="/auth/signup/" class="navbar-signin">
+                <span>Register</span>
+                <ion-icon name="log-in-outline"></ion-icon>
+              </a>
+
+              <a href="/auth/login/" class="navbar-signin">
+                <span>Login</span>
+                <ion-icon name="log-in-outline"></ion-icon>
+              </a>
+            {% endif %}
+
+
+          <a href="#" class="navbar-signin">
+            <span>watchlist</span>
+            <ion-icon name="play-outline"></ion-icon>
+          </a>
+
+        </div>
+
+      </div>
+    </header>
+ 
+    <main>
+
+        <section class="movie-detail">
+            <div class="container">
+    
+              <figure class="movie-detail-banner">
+    
+                <img src="https://image.tmdb.org/t/p/w500/{{poster}}" alt="{{title}} Poster" class="card-img">
+    
+                <button class="play-btn">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </button>
+    
+              </figure>
+    
+              <div class="movie-detail-content">
+    
+                <p class="detail-subtitle">New Episodes</p>
+    
+                <h1 class="h1 detail-title">
+                  <!-- Free <strong>Guy</strong> -->
+                  {{title}}
+                </h1>
+    
+                <div class="meta-wrapper">
+    
+                  <div class="badge-wrapper">
+                    <div class="badge badge-fill">PG 13</div>
+    
+                    <div class="badge badge-outline">HD</div>
+                  </div>
+    
+                  <div class="ganre-wrapper">
+                    {{ genres|join:", " }}
+                  </div>
+    
+                  <div class="date-time">
+    
+                    <div>
+                      <ion-icon name="calendar-outline"></ion-icon>
+    
+                      <time datetime="2021">{{ release_date| slice:"0:4" }}</time>
+                    </div>
+    
+                    <div>
+                      <ion-icon name="time-outline"></ion-icon>
+    
+                      <time datetime="PT115M">{{ runtime }} min</time>
+                    </div>
+    
+                  </div>
+    
+                </div>
+    
+                <p class="storyline">
+                  {{overview}}
+                </p>
+    
+                <div class="details-actions">
+    
+                  <button class="share">
+                    <ion-icon name="share-social"></ion-icon>
+    
+                    <span>Share</span>
+                  </button>
+    
+                  <div class="title-wrapper">
+                    <p class="title">Prime Video</p>
+    
+                    <p class="text">Streaming Channels</p>
+                  </div>
+    
+                  <button class="btn btn-primary">
+                    <ion-icon name="play"></ion-icon>
+    
+                    <span>Watch Now</span>
+                  </button>
+    
+                </div>
+    
+                <a href="./assets/images/movie-4.png" download class="download-btn">
+                  <span>Download</span>
+    
+                  <ion-icon name="download-outline"></ion-icon>
+                </a>
+    
+              </div>
+    
+            </div>
+          </section>
+
+    </main>
+
+
+    <footer>
+
+      <div class="footer-content">
+
+        <div class="footer-brand">
+          <img src="{% static '/assets/images/logo.png' %}" alt="" class="footer-logo">
+          <p class="slogan">Movies & TV Shows, Online cinema,
+            Movie database HTML Template.</p>
+
+
+          <div class="social-link">
+
+            <a href="#">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-tiktok"></ion-icon>
+            </a>
+            <a href="#">
+              <ion-icon name="logo-youtube"></ion-icon>
+            </a>
+
+          </div>
+        </div>
+
+
+        <div class="footer-links">
+          <ul>
+
+            <h4 class="link-heading">CineFlix</h4>
+
+            <li class="link-item"><a href="#">About us</a></li>
+            <li class="link-item"><a href="#">My profile</a></li>
+            <li class="link-item"><a href="#">Pricing plans</a></li>
+            <li class="link-item"><a href="#">Contacts</a></li>
+
+          </ul>
+
+          <ul>
+
+            <h4 class="link-heading">Browse</h4>
+
+            <li class="link-item"><a href="#">Live Tv</a></li>
+            <li class="link-item"><a href="#">Live News</a></li>
+            <li class="link-item"><a href="#">Live Sports</a></li>
+            <li class="link-item"><a href="#">Streaming Library</a></li>
+
+          </ul>
+
+          <ul>
+
+            <li class="link-item"><a href="#">TV Shows</a></li>
+            <li class="link-item"><a href="#">Movies</a></li>
+            <li class="link-item"><a href="#">Kids</a></li>
+            <li class="link-item"><a href="#">Collections</a></li>
+
+          </ul>
+
+          <ul>
+
+            <h4 class="link-heading">Help</h4>
+
+            <li class="link-item"><a href="#">Account & Billing</a></li>
+            <li class="link-item"><a href="#">Plans & Pricing</a></li>
+            <li class="link-item"><a href="#">Supported devices</a></li>
+            <li class="link-item"><a href="#">Accessibility</a></li>
+
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-copyright">
+
+        <div class="copyright">
+          <p>&copy; copyright 2021 CineFlix</p>
+        </div>
+
+        <div class="wrapper">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms and conditions</a>
+        </div>
+
+      </div>
+
+    </footer>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
+  
+  <script src="{% static '/assets/js/main.js' %}"></script>
+
+  
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html> {% endcomment %}

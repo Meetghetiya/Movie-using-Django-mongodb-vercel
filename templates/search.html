@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  movie search page
+{% endblock title %}
+
+{% block detail.css %}
+
+   <style>
+    .search-container {
+       margin-left: 40px;
+        gap: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+    }
+
+    #search-input {
+      padding: 10px;
+      width: 500px;
+      border-radius: 30px;
+      border: 2px solid white;
+      color:white;
+    }
+
+    .search{
+        color: black;
+        font-size: 20px;
+        
+    }
+
+    #search-button {
+      height: 40px;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 30px;
+    }
+
+    @media (max-width: 600px) {
+
+      .search-container{
+        width:50%;
+        margin-left:10px;
+      }
+      #search-input {
+        {% comment %} width: 10%; {% endcomment %}
+      }
+
+      .search-container {
+      }
+    }
+
+    @media (max-width: 450px) {
+      #search-input {
+        width: 80%;
+      }
+
+      .search-container {
+        height: 40px;
+      }
+    }
+
+       @media (max-width: 700px) {
+      #search-input {
+        width: calc(100% - 10px - 40px); /* Adjust width based on button size and margin */
+      }
+
+      .search-container {
+        width: 90%;
+        max-width: 600px;
+      }
+    }
+  </style>
+{% endblock detail.css %}
+
+
+{% block filter %}
+
+
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-5" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %}
+
+    <div class="filter-bar">
+
+         <div class="search-container">
+       <form method="post" action="{% url 'search_movie' %}">
+        {% csrf_token %}
+          
+          <input type="text" id="search-input" name="movie_name" placeholder="Search movie">
+          <button type="submit" id="search-button">
+              <ion-icon name="search-outline" type="submit" class="search"></ion-icon>
+          </button>
+
+        </form>
+      </div>    
+
+
+    </div>
+
+{% endblock filter %}
+
+{% block moviecontent %}
+       
+
+     <div class="movies-grid">
+            
+        {% for movie in movies %}
+          <div class="movie-card">
+
+          <a href="{% url 'movie_detail' movie_id=movie.id  %}">
+
+            <div class="card-head">
+              <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster }}" alt="{{ movie.title }} Poster" class="card-img">
+
+              <div class="card-overlay">
+
+                <div class="bookmark">
+                  <ion-icon name="bookmark-outline"></ion-icon>
+                </div>
+
+                <div class="rating">
+                  <ion-icon name="star-outline"></ion-icon>
+                  <span>{{movie.vote_average}}</span>
+                </div>
+
+                <div class="play">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card-body">
+              <h3 class="card-title">{{ movie.title }}</h3>
+
+              <div class="card-info">
+               
+                <span class="year">{{ movie.release_date| slice:"0:4" }}</span>
+              </div>
+            </div>
+
+            </a>
+
+          </div>
+        {% endfor %}
+
+        </div>
+
+{% endblock moviecontent %}

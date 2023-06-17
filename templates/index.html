@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block title %}
+  movie home page
+{% endblock title %}
+
+{% block filter %}
+
+
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show mt-5" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %}
+
+       <div class="filter-bar">
+
+          <p class="heading fs-2 fw-normal">Movie</p>
+
+        </div>
+
+{% endblock filter %}
+
+
+
+{% block moviecontent %}
+  
+   <div class="movies-grid">
+            
+        {% for movie in movies %}
+          <div class="movie-card">
+
+          <a href="{% url 'movie_detail' movie_id=movie.id  %}">
+
+            <div class="card-head">
+              <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="{{ movie.title }} Poster" class="card-img">
+
+              <div class="card-overlay">
+
+                <div class="bookmark">
+                  <ion-icon name="bookmark-outline"></ion-icon>
+                </div>
+
+                <div class="rating">
+                  <ion-icon name="star-outline"></ion-icon>
+                  <span>{{movie.vote_average}}</span>
+                </div>
+
+                <div class="play">
+                  <ion-icon name="play-circle-outline"></ion-icon>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card-body">
+              <h3 class="card-title">{{ movie.title }}</h3>
+
+              <div class="card-info">
+               
+                <span class="year">{{ movie.release_date| slice:"0:4" }}</span>
+              </div>
+            </div>
+
+            </a>
+
+          </div>
+        {% endfor %}
+
+        </div>
+
+         <button class="load-more">
+         {% if page < total_pages %}
+          <a href="{% url 'index' page=page|add:1 %}">Load More</a>
+         {% endif %}
+        </button>
+
+{% endblock moviecontent %}
+
+
+{% block category %}
+
+    <section class="category" id="category">
+
+        <h2 class="section-heading">Category</h2>
+
+        <div class="category-grid">
+
+
+          <a href="{% url 'category_movies' id=28 category='Action movies'  %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/action.jpg'  %}" alt="" class="card-img">
+            <div class="name">Action</div>
+            <div class="total">100</div>
+          </div>
+          </a>
+            
+          <a href="{% url 'category_movies' id=35 category='Comedy movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/comedy.jpg'  %}" alt="" class="card-img">
+            <div class="name">Comedy</div>
+            <div class="total">50</div>
+          </div>
+          </a>
+           
+          <a href="{% url 'category_movies' id=53 category='Thriller movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/thriller.webp' %}" alt="" class="card-img">
+            <div class="name">Thriller</div>
+            <div class="total">20</div>
+          </div>
+          </a>
+
+          <a href="{% url 'category_movies' id=27 category='Horror movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/horror.jpg'  %}" alt="" class="card-img">
+            <div class="name">Horror</div>
+            <div class="total">80</div>
+          </div>
+          </a>
+
+          <a href="{% url 'category_movies' id=12 category='Adventure movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/adventure.jpg'  %}" alt="" class="card-img">
+            <div class="name">Adventure</div>
+            <div class="total">100</div>
+          </div>
+        </a>
+
+        <a href="{% url 'category_movies' id=16 category='Animated movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/animated.jpg'  %}" alt="" class="card-img">
+            <div class="name">Animated</div>
+            <div class="total">50</div>
+          </div>
+        </a>
+
+        <a href="{% url 'category_movies' id=80 category='Crime movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/crime.jpg'  %}" alt="" class="card-img">
+            <div class="name">Crime</div>
+            <div class="total">20</div>
+          </div>
+        </a>
+
+        <a href="{% url 'category_movies' id=878 category='Sci_fi movies' %}">
+          <div class="category-card">
+            <img src="{% static '/assets/images/sci-fi.jpg'  %}" alt="" class="card-img">
+            <div class="name">SCI-FI</div>
+            <div class="total">80</div>
+          </div>
+          </a>
+
+        </div>
+
+      </section>
+
+{% endblock category %}
